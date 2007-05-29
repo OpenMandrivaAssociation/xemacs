@@ -1,7 +1,7 @@
 %define version 21.4.20
 %define rversion 21.4.20
 %define mversion 21.4
-%define sumodate 2006-12-10
+%define sumodate 2007-04-27
 %define _requires_exceptions /bin/zsh
 
 # force use of system malloc()
