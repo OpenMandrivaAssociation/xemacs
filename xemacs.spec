@@ -287,7 +287,7 @@ install -m 644 building/$RPM_ARCH-linux-mule/src/xemacs.dmp $RPM_BUILD_ROOT%{_bi
 #install -m 755 building/$RPM_ARCH-linux-gtk-gnome/src/xemacs $RPM_BUILD_ROOT%{_bindir}/xemacs-gtk-gnome
 bzcat %{SOURCE1} | tar -xf - -C $RPM_BUILD_ROOT/%{_datadir}/xemacs
 bzcat %{SOURCE2} | tar -xf - -C $RPM_BUILD_ROOT/%{_datadir}/xemacs
-bzcat %{SOURCE9} | tar -xf - -C $RPM_BUILD_ROOT/%{_datadir}/xemacs/xemacs-packages
+#bzcat %{SOURCE9} | tar -xf - -C $RPM_BUILD_ROOT/%{_datadir}/xemacs/xemacs-packages
 
 rm -f $RPM_BUILD_ROOT/%{_datadir}/xemacs/xemacs-packages/lisp/hyperbole/file-newer
 
@@ -300,7 +300,7 @@ $RPM_BUILD_DIR/xemacs-%{version}/building/$RPM_ARCH-linux-local/src/xemacs -batc
 
 # FIXME need to patch the rpm-spec-mode for short-circuit
 pushd $RPM_BUILD_ROOT
-bzcat %{PATCH10} | patch -p1
+cat %{PATCH10} | patch -p1
 $RPM_BUILD_DIR/xemacs-%{version}/building/$RPM_ARCH-linux-local/src/xemacs -batch -q -no-site-file -eval "(byte-compile-file \"$RPM_BUILD_ROOT/%{_datadir}/xemacs/xemacs-packages/lisp/prog-modes/rpm-spec-mode.el\")"
 rm $RPM_BUILD_ROOT/%{_datadir}/xemacs/xemacs-packages/lisp/prog-modes/rpm-spec-mode.el.orig
 popd
