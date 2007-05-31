@@ -7,7 +7,7 @@
 # force use of system malloc()
 %define system_malloc_arches ppc64
 
-%define release %mkrel 1
+%define release %mkrel 2
 
 Summary: XEmacs is a highly customizable text editor and application development system
 Name: xemacs
@@ -328,18 +328,6 @@ mkdir $RPM_BUILD_ROOT%{_sysconfdir}/emacs/site-start.d
 mkdir -p $RPM_BUILD_ROOT/%{_miconsdir}
 mkdir -p $RPM_BUILD_ROOT/%{_liconsdir}
 
-mkdir -p $RPM_BUILD_ROOT/%{_menudir}/
-cat << "EOF" > $RPM_BUILD_ROOT/%{_menudir}/xemacs
-?package(xemacs):\
-  needs=X11\
-  section=Applications/Editors\
-  title="XEmacs"\
-  longtitle="The XEmacs editor"\
-  command="%{_bindir}/xemacs"\
-  icon="xemacs.xpm" \
-  xdg="true"
-EOF
-
 mkdir $RPM_BUILD_ROOT%{_datadir}/applications
 cat > $RPM_BUILD_ROOT%{_datadir}/applications/mandriva-%{name}.desktop << EOF
 [Desktop Entry]
@@ -440,16 +428,16 @@ install -m 644 %SOURCE8 %buildroot/%_liconsdir/xemacs.xpm
 #EOF
 cat %{_datadir}/xemacs-%{version}/etc/Emacs.ad >> /%{_sysconfdir}/X11/app-defaults/Emacs
 
-for f in cl. internals lispref texinfo xemacs custom emodules new-users-guide widget external-widget term xemacs-faq; do
+for f in cl internals lispref texinfo xemacs custom emodules new-users-guide widget external-widget term xemacs-faq; do
   /sbin/install-info --section="XEmacs" %{_infodir}/$f.info.bz2 %{_infodir}/dir
 done
 for f in %{_infodir}/xemacs/*.info.bz2; do
-  /sbin/install-info --section="XEmacs" $f %{_infodir}/dir
+  /sbin/install-info --quiet --section="XEmacs" $f %{_infodir}/dir
 done
 
 %post mule
 for f in %{_infodir}/xemacs/mule/*.info.bz2; do
-   /sbin/install-info --section="XEmacs-mule" $f %{_infodir}/dir
+   /sbin/install-info --quiet --section="XEmacs-mule" $f %{_infodir}/dir
 done
 
 %postun
@@ -458,11 +446,11 @@ done
 %preun 
 
 if [ "$1" = 0 ]; then
-for f in cl. internals lispref texinfo xemacs custom emodules new-users-guide widget external-widget term xemacs-faq; do
+for f in cl internals lispref texinfo xemacs custom emodules new-users-guide widget external-widget term xemacs-faq; do
   /sbin/install-info --section="XEmacs" --delete %{_infodir}/$f.info.bz2 %{_infodir}/dir
 done
 for f in %{_infodir}/xemacs/*.info.bz2; do
-  /sbin/install-info --section="XEmacs" --delete $f %{_infodir}/dir
+  /sbin/install-info --quiet --section="XEmacs" --delete $f %{_infodir}/dir
 done
 fi
 
@@ -470,7 +458,7 @@ fi
 
 if [ "$1" = 0 ]; then
 for f in %{_infodir}/xemacs/*.info.bz2; do
-  /sbin/install-info --section="XEmacs-mule" --delete $f %{_infodir}/dir
+  /sbin/install-info --quiet -section="XEmacs-mule" --delete $f %{_infodir}/dir
 done
 fi
 
@@ -481,7 +469,6 @@ fi
 %dir %{_sysconfdir}/emacs/site-start.d
 # /usr/share/icons/mini/*.xpm
 #%{_miconsdir}/*.xpm
-%{_menudir}/xemacs
 %{_datadir}/applications/mandriva-xemacs.desktop
 %{_bindir}/xemacs
 %{_bindir}/xemacs-%{version}*
