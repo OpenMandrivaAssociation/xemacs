@@ -7,7 +7,7 @@
 # force use of system malloc()
 %define system_malloc_arches ppc64
 
-%define release %mkrel 2
+%define release %mkrel 3
 
 Summary: XEmacs is a highly customizable text editor and application development system
 Name: xemacs
@@ -20,9 +20,9 @@ Source0: ftp://ftp.xemacs.org/pub/xemacs/xemacs-%{mversion}/xemacs-%{rversion}.t
 Source1: ftp://ftp.xemacs.org/pub/xemacs/packages/xemacs-mule-sumo-%{sumodate}.tar.bz2
 Source2: ftp://ftp.xemacs.org/pub/xemacs/packages/xemacs-sumo-%{sumodate}.tar.bz2
 Source5: site-start-mdk.el
-Source6: xemacs-16.xpm
-Source7: xemacs-32.xpm
-Source8: xemacs-48.xpm
+Source6: xemacs-16.png
+Source7: xemacs-32.png
+Source8: xemacs-48.png
 Patch2: xemacs-21.6-non-x86-build.patch
 Patch5: xemacs-21.4.9-fix-emacs-roots.patch
 Patch6: xemacs-21.4.15-ppc64.patch
@@ -34,7 +34,7 @@ Buildroot: %{_tmppath}/xemacs-root
 Requires: ctags
 BuildRequires:	Xaw3d-devel
 BuildRequires:	X11-static-devel
-BuildRequires:	autoconf
+BuildRequires:	autoconf2.1
 BuildRequires:	bison
 BuildRequires:	db4-devel
 BuildRequires:	faces-devel
@@ -182,6 +182,9 @@ XEMACS_CONFIG="$RPM_ARCH-mandrake-linux $VAR_CONF \
     --with-clash-detection \
     --with-scrollbars=lucid \
     --with-menubars=lucid \
+    --with-dialogs=athena \
+    --with-widgets=athena \
+    --x-includes=%_includedir \
     --with-xpm \
     --with-xface \
     --with-png \
@@ -198,8 +201,6 @@ XEMACS_CONFIG="$RPM_ARCH-mandrake-linux $VAR_CONF \
     --exec-prefix=/usr \
     --with-x11 \
     --with-tty=yes \
-    --with-dialogs=athena \
-    --with-widgets=athena \
     --with-athena=3d \
 %ifarch %{system_malloc_arches}
     --with-system-malloc \
@@ -325,9 +326,6 @@ ln -s ../../../../etc/emacs/site-start-xemacs.el site-start.el && popd
 
 mkdir $RPM_BUILD_ROOT%{_sysconfdir}/emacs/site-start.d
 
-mkdir -p $RPM_BUILD_ROOT/%{_miconsdir}
-mkdir -p $RPM_BUILD_ROOT/%{_liconsdir}
-
 mkdir $RPM_BUILD_ROOT%{_datadir}/applications
 cat > $RPM_BUILD_ROOT%{_datadir}/applications/mandriva-%{name}.desktop << EOF
 [Desktop Entry]
@@ -338,7 +336,7 @@ Exec=%{_bindir}/%{name} %U
 Icon=%{name}
 Terminal=false
 Type=Application
-Categories=TextEditor;
+Categories=Motif;Utility;TextEditor;
 EOF
 
 for i in termcap.info-1 termcap.info-2 termcap.info-3 termcap.info info.info standards.info		 
@@ -413,17 +411,16 @@ find $MULEDIR $NDEVEL -type f -name $EL |
 
 cat rpm-sumo-files >> rpm-files
 
-install -d %buildroot/%_liconsdir/
-install -d %buildroot/%_miconsdir/
-install -m 644 %SOURCE6 %buildroot/%_miconsdir/xemacs.xpm
-install -m 644 %SOURCE7 %buildroot/%_iconsdir/xemacs.xpm
-install -m 644 %SOURCE8 %buildroot/%_liconsdir/xemacs.xpm
+install -m 644 -D %SOURCE6 %buildroot/%_iconsdir/hicolor/16x16/apps/xemacs.png
+install -m 644 -D %SOURCE7 %buildroot/%_iconsdir/hicolor/32x32/apps/xemacs.png
+install -m 644 -D %SOURCE8 %buildroot/%_iconsdir/hicolor/48x48/apps/xemacs.png
 
 %post 
-%{update_menus}													
-#
+%{update_menus}	
+%{update_icon_cache hicolor}			
+
 # euro only works in development version
-#grep "Emacs\*font" || cat >> /usr/X11R6/lib/X11/app-defaults/Emacs << EOF
+#grep "Emacs\*font" || cat >> /usr/lib/X11/app-defaults/Emacs << EOF
 #xemacs*font: -*-Fixed-Medium-R-*-*-*-130-*-*-*-*-iso8859-1
 #EOF
 cat %{_datadir}/xemacs-%{version}/etc/Emacs.ad >> /%{_sysconfdir}/X11/app-defaults/Emacs
@@ -442,6 +439,7 @@ done
 
 %postun
 %{clean_menus}
+%{clean_icon_cache hicolor}
 
 %preun 
 
@@ -467,8 +465,6 @@ fi
 %doc BUGS ChangeLog README README.packages PROBLEMS
 %config(noreplace) /etc/emacs/site-start-xemacs.el
 %dir %{_sysconfdir}/emacs/site-start.d
-# /usr/share/icons/mini/*.xpm
-#%{_miconsdir}/*.xpm
 %{_datadir}/applications/mandriva-xemacs.desktop
 %{_bindir}/xemacs
 %{_bindir}/xemacs-%{version}*
@@ -481,9 +477,7 @@ fi
 %{_mandir}/man1/gnuclient.1*
 %{_mandir}/man1/gnuattach.1*
 %{_mandir}/man1/gnudoit.1*
-%_iconsdir/*.xpm
-%_miconsdir/*.xpm
-%_liconsdir/*.xpm
+%{_iconsdir}/hicolor/*/apps/*.png
 %{_infodir}/*
 
 %files devel -f rpm-devel-files
