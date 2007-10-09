@@ -78,7 +78,7 @@ Requires: xemacs = %{version}
 Contains all the header files needed for xemacs development.
 
 %package mule
-Summary: The XEmacs binary with mule (MUlti-Lingual Emacs) support.
+Summary: The XEmacs binary with mule (MUlti-Lingual Emacs) support
 Group: Editors
 Requires: xemacs = %{version}
 Provides: xemacs-mule-packages
@@ -142,7 +142,7 @@ it if you're planning on incorporating some Lisp programming into your
 XEmacs experience.
 
 %package extras
-Summary: Files that XEmacs has in common with GNU Emacs.
+Summary: Files that XEmacs has in common with GNU Emacs
 Group: Editors
 Requires: xemacs = %{version}
 Provides: ctags
