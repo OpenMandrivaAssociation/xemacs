@@ -7,7 +7,7 @@
 # force use of system malloc()
 %define system_malloc_arches ppc64
 
-%define release %mkrel 3
+%define release %mkrel 4
 
 Summary: XEmacs is a highly customizable text editor and application development system
 Name: xemacs
@@ -425,14 +425,14 @@ install -m 644 -D %SOURCE8 %buildroot/%_iconsdir/hicolor/48x48/apps/xemacs.png
 cat %{_datadir}/xemacs-%{version}/etc/Emacs.ad >> /%{_sysconfdir}/X11/app-defaults/Emacs
 
 for f in cl internals lispref texinfo xemacs custom emodules new-users-guide widget external-widget term xemacs-faq; do
-  /sbin/install-info --section="XEmacs" %{_infodir}/$f.info.bz2 %{_infodir}/dir
+  /sbin/install-info --section="XEmacs" %{_infodir}/$f.info%{_extension} %{_infodir}/dir
 done
-for f in %{_infodir}/xemacs/*.info.bz2; do
+for f in %{_infodir}/xemacs/*.info{_extension}; do
   /sbin/install-info --quiet --section="XEmacs" $f %{_infodir}/dir
 done
 
 %post mule
-for f in %{_infodir}/xemacs/mule/*.info.bz2; do
+for f in %{_infodir}/xemacs/mule/*.info{_extension}; do
    /sbin/install-info --quiet --section="XEmacs-mule" $f %{_infodir}/dir
 done
 
@@ -444,9 +444,9 @@ done
 
 if [ "$1" = 0 ]; then
 for f in cl internals lispref texinfo xemacs custom emodules new-users-guide widget external-widget term xemacs-faq; do
-  /sbin/install-info --section="XEmacs" --delete %{_infodir}/$f.info.bz2 %{_infodir}/dir
+  /sbin/install-info --section="XEmacs" --delete %{_infodir}/$f.info{_extension} %{_infodir}/dir
 done
-for f in %{_infodir}/xemacs/*.info.bz2; do
+for f in %{_infodir}/xemacs/*.info{_extension}; do
   /sbin/install-info --quiet --section="XEmacs" --delete $f %{_infodir}/dir
 done
 fi
@@ -454,7 +454,7 @@ fi
 %preun mule
 
 if [ "$1" = 0 ]; then
-for f in %{_infodir}/xemacs/*.info.bz2; do
+for f in %{_infodir}/xemacs/*.info{_extension}; do
   /sbin/install-info --quiet -section="XEmacs-mule" --delete $f %{_infodir}/dir
 done
 fi
