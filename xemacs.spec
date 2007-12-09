@@ -1,5 +1,5 @@
-%define version 21.4.20
-%define rversion 21.4.20
+%define version 21.4.21
+%define rversion 21.4.21
 %define mversion 21.4
 %define sumodate 2007-04-27
 %define _requires_exceptions /bin/zsh
@@ -7,13 +7,13 @@
 # force use of system malloc()
 %define system_malloc_arches ppc64
 
-%define release %mkrel 4
+%define release %mkrel 1
 
 Summary: XEmacs is a highly customizable text editor and application development system
 Name: xemacs
 Version: %{version}
 Release: %release
-License: GPL
+License: GPLv2+
 Group: Editors
 
 Source0: ftp://ftp.xemacs.org/pub/xemacs/xemacs-%{mversion}/xemacs-%{rversion}.tar.bz2
