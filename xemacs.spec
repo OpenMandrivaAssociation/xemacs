@@ -7,7 +7,7 @@
 # force use of system malloc()
 %define system_malloc_arches ppc64
 
-%define release %mkrel 1
+%define release %mkrel 2
 
 Summary: XEmacs is a highly customizable text editor and application development system
 Name: xemacs
@@ -330,7 +330,7 @@ mkdir $RPM_BUILD_ROOT%{_datadir}/applications
 cat > $RPM_BUILD_ROOT%{_datadir}/applications/mandriva-%{name}.desktop << EOF
 [Desktop Entry]
 Name=Xemacs
-Comment=%{longtitle}
+Comment=The XEmacs editor
 Exec=%{_bindir}/%{name} %U
 Icon=%{name}
 Terminal=false
