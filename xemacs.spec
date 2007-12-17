@@ -30,7 +30,6 @@ Patch10: xemacs-21.4.12-rpm-spec-mode.patch
 Provides: xemacs-noX xemacs-static xemacs-X11 xemacs-packages
 Obsoletes: xemacs-noX xemacs-static xemacs-X11 xemacs-packages
 Url: http://www.xemacs.org/
-Buildroot: %{_tmppath}/xemacs-root
 Requires: ctags
 BuildRequires:	Xaw3d-devel
 BuildRequires:	X11-static-devel
