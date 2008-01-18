@@ -7,12 +7,12 @@
 # force use of system malloc()
 %define system_malloc_arches ppc64
 
-%define release %mkrel 3
+%define release %mkrel 4
 
 Summary: XEmacs is a highly customizable text editor and application development system
 Name: xemacs
 Version: %{version}
-Release: %release
+Release: %{release}
 License: GPLv2+
 Group: Editors
 
@@ -27,6 +27,7 @@ Patch2: xemacs-21.6-non-x86-build.patch
 Patch5: xemacs-21.4.9-fix-emacs-roots.patch
 Patch6: xemacs-21.4.15-ppc64.patch
 Patch10: xemacs-21.4.12-rpm-spec-mode.patch
+Patch11: xemacs-21.4.21-lzma.patch
 Provides: xemacs-noX xemacs-static xemacs-X11 xemacs-packages
 Obsoletes: xemacs-noX xemacs-static xemacs-X11 xemacs-packages
 Url: http://www.xemacs.org/
@@ -162,6 +163,7 @@ install this package when you install the XEmacs text editor.
 
 %patch5 -p1 -b .warly
 %patch6 -p1 -b .ppc64
+%patch11 -p1 -b .lzma
 
 %build
 
