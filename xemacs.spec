@@ -54,7 +54,6 @@ BuildConflicts: compat-Tru64
 %endif
 
 %description 
-
 XEmacs is a self-documenting, customizable, extensible, real-time
 display editor. XEmacs is self-documenting because at any time you can
 type in control-h to find out what your options are or to find out
