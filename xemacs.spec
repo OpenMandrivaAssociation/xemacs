@@ -91,7 +91,7 @@ compiled with X11 support only, so you won't be able to use it in a TTY
 (ncurses) mode.
 
 # %package gtk
-# Summary: The XEmacs binary with GTK widgets.
+# Summary: The XEmacs binary with GTK widgets
 # Group: Editors
 # Requires: xemacs = %{version}
 # %description gtk
@@ -107,7 +107,7 @@ compiled with X11 support only, so you won't be able to use it in a TTY
 # type. This version used the GTK widgets
 
 # %package gtk-gnome
-# Summary: The XEmacs binary with GTK widgets.
+# Summary: The XEmacs binary with GTK widgets
 # Group: Editors
 # Requires: xemacs = %{version}
 # %description gtk-gnome
