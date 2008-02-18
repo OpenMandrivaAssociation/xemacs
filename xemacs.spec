@@ -9,7 +9,7 @@
 
 %define release %mkrel 4
 
-Summary: XEmacs is a highly customizable text editor and application development system
+Summary: Highly customizable text editor and application development system
 Name: xemacs
 Version: %{version}
 Release: %{release}
