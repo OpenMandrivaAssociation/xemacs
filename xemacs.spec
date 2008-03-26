@@ -7,7 +7,7 @@
 # force use of system malloc()
 %define system_malloc_arches ppc64
 
-%define release %mkrel 5
+%define release %mkrel 6
 
 Summary: Highly customizable text editor and application development system
 Name: xemacs
@@ -33,6 +33,9 @@ Obsoletes: xemacs-noX xemacs-static xemacs-X11 xemacs-packages
 Url: http://www.xemacs.org/
 Buildroot: %{_tmppath}/xemacs-root
 Requires: ctags
+# It looks crap by default without these fonts - AdamW 2008/03, see
+# http://forum.mandriva.com/viewtopic.php?p=457779
+Suggests: x11-font-adobe-100dpi
 BuildRequires:	Xaw3d-devel
 BuildRequires:	X11-static-devel
 BuildRequires:	autoconf2.1
