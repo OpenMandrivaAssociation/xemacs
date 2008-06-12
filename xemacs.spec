@@ -419,8 +419,10 @@ install -m 644 -D %SOURCE7 %buildroot/%_iconsdir/hicolor/32x32/apps/xemacs.png
 install -m 644 -D %SOURCE8 %buildroot/%_iconsdir/hicolor/48x48/apps/xemacs.png
 
 %post 
+%if %mdkversion < 200900
 %{update_menus}	
 %{update_icon_cache hicolor}			
+%endif
 
 # euro only works in development version
 #grep "Emacs\*font" || cat >> /usr/lib/X11/app-defaults/Emacs << EOF
@@ -440,9 +442,11 @@ for f in %{_infodir}/xemacs/mule/*.info%{_extension}; do
    /sbin/install-info --quiet --section="XEmacs-mule" $f %{_infodir}/dir
 done
 
+%if %mdkversion < 200900
 %postun
 %{clean_menus}
 %{clean_icon_cache hicolor}
+%endif
 
 %preun 
 
