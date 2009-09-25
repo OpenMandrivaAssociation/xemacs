@@ -1,13 +1,13 @@
-%define version 21.4.21
-%define rversion 21.4.21
+%define version 21.4.22
+%define rversion 21.4.22
 %define mversion 21.4
-%define sumodate 2007-04-27
+%define sumodate 2009-02-17
 %define _requires_exceptions /bin/zsh /bin/csh
 
 # force use of system malloc()
 %define system_malloc_arches ppc64
 
-%define release %mkrel 10
+%define release %mkrel 1
 
 Summary: Highly customizable text editor and application development system
 Name: xemacs
@@ -28,6 +28,12 @@ Patch5: xemacs-21.4.9-fix-emacs-roots.patch
 Patch6: xemacs-21.4.15-ppc64.patch
 Patch10: xemacs-21.4.12-rpm-spec-mode.patch
 Patch11: xemacs-21.4.21-lzma.patch
+
+# Backport of patches:
+#	http://cvs.fedoraproject.org/viewvc/rpms/xemacs/devel/xemacs-21.5.29-image-overflow.patch?revision=1.1
+#	http://cvs.fedoraproject.org/viewvc/rpms/xemacs/devel/xemacs-21.5.29-png.patch?revision=1.1
+Patch12: xemacs-21.4.22-CVE-2009-2688.patch
+
 Provides: xemacs-noX xemacs-static xemacs-X11 xemacs-packages
 Obsoletes: xemacs-noX xemacs-static xemacs-X11 xemacs-packages
 Url: http://www.xemacs.org/
@@ -166,6 +172,7 @@ install this package when you install the XEmacs text editor.
 %patch5 -p1 -b .warly
 %patch6 -p1 -b .ppc64
 %patch11 -p1 -b .lzma
+%patch12 -p1
 
 %build
 
@@ -307,11 +314,10 @@ $RPM_BUILD_DIR/xemacs-%{version}/building/$RPM_ARCH-linux-local/src/xemacs -batc
 pushd $RPM_BUILD_ROOT
 cat %{PATCH10} | patch -p1
 $RPM_BUILD_DIR/xemacs-%{version}/building/$RPM_ARCH-linux-local/src/xemacs -batch -q -no-site-file -eval "(byte-compile-file \"$RPM_BUILD_ROOT/%{_datadir}/xemacs/xemacs-packages/lisp/prog-modes/rpm-spec-mode.el\")"
-rm $RPM_BUILD_ROOT/%{_datadir}/xemacs/xemacs-packages/lisp/prog-modes/rpm-spec-mode.el.orig
 popd
 
 export specialel="_pkg.el hyperspec-carney.el ilisp-bug.el ilisp-cl-easy-menu.el mew-mule0.el mew-mule1.el mew-mule2.el mew-mule3.el eieio-tests.el hui-epV4-b.el erc-speak.el erc-chess.el url-riece.el un-trbase.el" 
-for i in `find $RPM_BUILD_ROOT/%{_datadir}/xemacs/mule-packages/lisp/ $RPM_BUILD_ROOT/%{_datadir}/xemacs/xemacs-packages/lisp/ $RPM_BUILD_ROOT/%{_datadir}/xemacs/xemacs-%{version}/lisp/ -name "*.el" -or -name "*.elc" | perl -e 'while (<>) { /(.*\.el)$/ and push @doneel,$1; /(.*\.el)c$/ and $doneelc{$1} = 1 } foreach (split " ",$ENV{specialel}) { $doneelc{"$_"} = 1}; foreach (@doneel) { if (!$doneelc{"$_"} && (/([^\/]+)$/ and !$doneelc{$1})) { print "$_\n"}}'`;do pushd `echo $i | sed "s/\/[^\/]\+$//"` && $RPM_BUILD_DIR/xemacs-%{version}/building/$RPM_ARCH-linux-local/src/xemacs -batch -q -no-site-file -eval "(byte-compile-file \"$i\")";popd;done
+for i in `find $RPM_BUILD_ROOT/%{_datadir}/xemacs/mule-packages/lisp/ $RPM_BUILD_ROOT/%{_datadir}/xemacs/xemacs-packages/lisp/ $RPM_BUILD_ROOT/%{_datadir}/xemacs/xemacs-%{version}/lisp/ \( -name "*.el" -or -name "*.elc" \) -a -not -name "*-skel.el" | perl -e 'while (<>) { /(.*\.el)$/ and push @doneel,$1; /(.*\.el)c$/ and $doneelc{$1} = 1 } foreach (split " ",$ENV{specialel}) { $doneelc{"$_"} = 1}; foreach (@doneel) { if (!$doneelc{"$_"} && (/([^\/]+)$/ and !$doneelc{$1})) { print "$_\n"}}'`;do pushd `echo $i | sed "s/\/[^\/]\+$//"` && $RPM_BUILD_DIR/xemacs-%{version}/building/$RPM_ARCH-linux-local/src/xemacs -batch -q -no-site-file -eval "(byte-compile-file \"$i\")";popd;done
 
 mkdir -p $RPM_BUILD_ROOT/%{_infodir}/xemacs/mule
 mv $RPM_BUILD_ROOT/%{_datadir}/xemacs/xemacs-packages/info/* $RPM_BUILD_ROOT/%{_infodir}/xemacs/
