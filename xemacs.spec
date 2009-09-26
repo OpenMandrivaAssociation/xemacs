@@ -23,7 +23,7 @@ Source5: site-start-mdk.el
 Source6: xemacs-16.png
 Source7: xemacs-32.png
 Source8: xemacs-48.png
-Patch2: xemacs-21.6-non-x86-build.patch
+Patch2: xemacs-21.4.22-non-x86-build.patch
 Patch5: xemacs-21.4.9-fix-emacs-roots.patch
 Patch6: xemacs-21.4.15-ppc64.patch
 Patch10: xemacs-21.4.22-rpm-spec-mode.patch
