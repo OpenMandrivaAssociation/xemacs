@@ -7,7 +7,7 @@
 # force use of system malloc()
 %define system_malloc_arches ppc64
 
-%define release %mkrel 1
+%define release %mkrel 2
 
 Summary: Highly customizable text editor and application development system
 Name: xemacs
@@ -33,6 +33,9 @@ Patch11: xemacs-21.4.21-lzma.patch
 #	http://cvs.fedoraproject.org/viewvc/rpms/xemacs/devel/xemacs-21.5.29-image-overflow.patch?revision=1.1
 #	http://cvs.fedoraproject.org/viewvc/rpms/xemacs/devel/xemacs-21.5.29-png.patch?revision=1.1
 Patch12: xemacs-21.4.22-CVE-2009-2688.patch
+
+# http://tracker.xemacs.org/XEmacs/its/issue494 and #54215
+Patch13: xemacs-21.4.22-ediff.patch
 
 Provides: xemacs-noX xemacs-static xemacs-X11 xemacs-packages
 Obsoletes: xemacs-noX xemacs-static xemacs-X11 xemacs-packages
@@ -300,6 +303,11 @@ install -m 644 building/$RPM_ARCH-linux-mule/src/xemacs.dmp $RPM_BUILD_ROOT%{_bi
 bzcat %{SOURCE1} | tar -xf - -C $RPM_BUILD_ROOT/%{_datadir}/xemacs
 bzcat %{SOURCE2} | tar -xf - -C $RPM_BUILD_ROOT/%{_datadir}/xemacs
 #bzcat %{SOURCE9} | tar -xf - -C $RPM_BUILD_ROOT/%{_datadir}/xemacs/xemacs-packages
+
+pushd %{buildroot}
+    patch -p1 < %{PATCH13}
+    %{_builddir}/xemacs-%{version}/building/%{_arch}-linux-local/src/xemacs -batch -q -no-site-file -eval "(byte-compile-file \"%{buildroot}%{_datadir}/xemacs/xemacs-packages/lisp/ediff/ediff-init.el\")"
+popd
 
 rm -f $RPM_BUILD_ROOT/%{_datadir}/xemacs/xemacs-packages/lisp/hyperbole/file-newer
 
