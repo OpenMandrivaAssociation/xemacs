@@ -1,13 +1,14 @@
-%define version 21.4.22
-%define rversion 21.4.22
-%define mversion 21.4
+%define major 21
+%define version %{major}.4.22
+%define rversion %{major}.4.22
+%define mversion %{major}.4
 %define sumodate 2009-02-17
 %define _requires_exceptions /bin/zsh /bin/csh
 
 # force use of system malloc()
 %define system_malloc_arches ppc64
 
-%define release %mkrel 2
+%define release %mkrel 3
 
 Summary: Highly customizable text editor and application development system
 Name: xemacs
@@ -65,6 +66,9 @@ BuildRequires:  x11-data-bitmaps
 BuildConflicts: compat-Tru64
 %endif
 
+Requires(preun): update-alternatives
+Requires(post):  update-alternatives
+
 %description 
 XEmacs is a self-documenting, customizable, extensible, real-time
 display editor. XEmacs is self-documenting because at any time you can
@@ -95,6 +99,10 @@ Group: Editors
 Requires: xemacs = %{version}
 Provides: xemacs-mule-packages
 Obsoletes: xemacs-mule-packages
+
+Requires(preun): update-alternatives
+Requires(post):  update-alternatives
+
 %description mule
 Xemacs-mule includes an XEmacs binary with support for
 MUlti-Lingual Emacs and the Asian character set. Install xemacs-mule
@@ -381,6 +389,9 @@ done
 
 chmod 644 $RPM_BUILD_ROOT/%{_datadir}/xemacs/xemacs-packages/lisp/edit-utils/info-look.el $RPM_BUILD_ROOT/%{_datadir}/xemacs/xemacs-packages/lisp/gnus/nnmail.el
 
+# use update-alternatives
+rm -f %{buildroot}%{_bindir}/%{name}
+
 # 20060131 warly remove empty files
 find $PACKAGES $MULEDIR -type f -name 'custom-load.el' -size 0 -delete
 
@@ -433,6 +444,7 @@ install -m 644 -D %SOURCE7 %buildroot/%_iconsdir/hicolor/32x32/apps/xemacs.png
 install -m 644 -D %SOURCE8 %buildroot/%_iconsdir/hicolor/48x48/apps/xemacs.png
 
 %post 
+/usr/sbin/update-alternatives --install %{_bindir}/%{name} %{name} %{_bindir}/%{name}-%{version} %{major}
 %if %mdkversion < 200900
 %{update_menus}	
 %{update_icon_cache hicolor}			
@@ -452,34 +464,40 @@ for f in %{_infodir}/xemacs/*.info%{_extension}; do
 done
 
 %post mule
+/usr/sbin/update-alternatives --install %{_bindir}/%{name} %{name} %{_bindir}/%{name}-mule %{major}
+/usr/sbin/update-alternatives --set %{name} %{_bindir}/%{name}-mule
 for f in %{_infodir}/xemacs/mule/*.info%{_extension}; do
    /sbin/install-info --quiet --section="XEmacs-mule" $f %{_infodir}/dir
 done
 
-%if %mdkversion < 200900
 %postun
+[[ ! -f %{_bindir}/%{name}-%{version} ]] && \
+    /usr/sbin/update-alternatives --remove %{name} %{_bindir}/%{name}-%{version} || :
+%if %mdkversion < 200900
 %{clean_menus}
 %{clean_icon_cache hicolor}
 %endif
 
 %preun 
-
 if [ "$1" = 0 ]; then
 for f in cl internals lispref texinfo xemacs custom emodules new-users-guide widget external-widget term xemacs-faq; do
   /sbin/install-info --section="XEmacs" --delete %{_infodir}/$f.info%{_extension} %{_infodir}/dir
 done
 for f in %{_infodir}/xemacs/*.info%{_extension}; do
-  /sbin/install-info --quiet --section="XEmacs" --delete $f %{_infodir}/dir
+  [ -f $f ] && /sbin/install-info --quiet --section="XEmacs" --delete $f %{_infodir}/dir
 done
 fi
 
 %preun mule
-
 if [ "$1" = 0 ]; then
 for f in %{_infodir}/xemacs/*.info%{_extension}; do
-  /sbin/install-info --quiet -section="XEmacs-mule" --delete $f %{_infodir}/dir
+  [ -f $f ] && /sbin/install-info --quiet -section="XEmacs-mule" --delete $f %{_infodir}/dir
 done
 fi
+
+%postun mule
+[[ ! -f %{_bindir}/%{name}-mule ]] && \
+    /usr/sbin/update-alternatives --remove %{name} %{_bindir}/%{name}-mule || :
 
 %files -f rpm-files
 %defattr(-,root, root)
@@ -487,7 +505,6 @@ fi
 %config(noreplace) /etc/emacs/site-start-xemacs.el
 %dir %{_sysconfdir}/emacs/site-start.d
 %{_datadir}/applications/mandriva-xemacs.desktop
-%{_bindir}/xemacs
 %{_bindir}/xemacs-%{version}*
 %{_bindir}/gnuclient
 %{_bindir}/gnuattach
