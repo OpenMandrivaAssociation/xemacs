@@ -8,7 +8,7 @@
 # force use of system malloc()
 %define system_malloc_arches ppc64
 
-%define release %mkrel 3
+%define release %mkrel 4
 
 Summary: Highly customizable text editor and application development system
 Name: xemacs
@@ -391,6 +391,7 @@ chmod 644 $RPM_BUILD_ROOT/%{_datadir}/xemacs/xemacs-packages/lisp/edit-utils/inf
 
 # use update-alternatives
 rm -f %{buildroot}%{_bindir}/%{name}
+mv -f %{buildroot}%{_bindir}/{ctags,xemacs-ctags}
 
 # 20060131 warly remove empty files
 find $PACKAGES $MULEDIR -type f -name 'custom-load.el' -size 0 -delete
@@ -463,6 +464,9 @@ for f in %{_infodir}/xemacs/*.info%{_extension}; do
   /sbin/install-info --quiet --section="XEmacs" $f %{_infodir}/dir
 done
 
+%post extras
+/usr/sbin/update-alternatives --install %{_bindir}/ctags ctags %{_bindir}/%{name}-ctags 0
+
 %post mule
 /usr/sbin/update-alternatives --install %{_bindir}/%{name} %{name} %{_bindir}/%{name}-mule %{major}
 /usr/sbin/update-alternatives --set %{name} %{_bindir}/%{name}-mule
@@ -494,6 +498,10 @@ for f in %{_infodir}/xemacs/*.info%{_extension}; do
   [ -f $f ] && /sbin/install-info --quiet -section="XEmacs-mule" --delete $f %{_infodir}/dir
 done
 fi
+
+%postun extras
+[[ ! -f %{_bindir}/%{name}-ctags ]] && \
+    /usr/sbin/update-alternatives --remove ctags %{_bindir}/%{name}-ctags || :
 
 %postun mule
 [[ ! -f %{_bindir}/%{name}-mule ]] && \
@@ -560,7 +568,7 @@ fi
 %doc README
 %{_bindir}/b2m
 %{_bindir}/etags
-%{_bindir}/ctags
+%{_bindir}/xemacs-ctags
 %{_bindir}/ootags
 %{_bindir}/rcs-checkin
 %{_mandir}/man1/etags.1*
