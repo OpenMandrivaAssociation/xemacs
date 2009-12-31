@@ -51,7 +51,7 @@ BuildRequires:	X11-static-devel
 BuildRequires:	autoconf2.1
 BuildRequires:	bison
 BuildRequires:	db4-devel
-BuildRequires:	faces-devel
+BuildRequires:	compface-devel
 BuildRequires:	lesstif-devel
 BuildRequires:	ncurses-devel
 BuildRequires:	libxml-devel
