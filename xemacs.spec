@@ -8,7 +8,7 @@
 # force use of system malloc()
 %define system_malloc_arches ppc64
 
-%define release %mkrel 7
+%define release 8
 
 Summary: Highly customizable text editor and application development system
 Name: xemacs
@@ -50,7 +50,7 @@ BuildRequires:	Xaw3d-devel
 BuildRequires:	X11-static-devel
 BuildRequires:	autoconf2.1
 BuildRequires:	bison
-BuildRequires:	db4-devel
+BuildRequires:	db-devel
 BuildRequires:	compface-devel
 BuildRequires:	lesstif-devel
 BuildRequires:	ncurses-devel
