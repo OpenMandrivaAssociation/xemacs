@@ -197,7 +197,7 @@ rm -rf building && mkdir -p building && cd building
 
 # standard: X11 and console support. No mule, though.
 VAR_CONF="--prefix=/usr --exec-prefix=/usr --package-path=/%{_datadir}/xemacs/ --datadir=/%{_datadir} --mandir=/%{_mandir}/man0 --infodir=/%{_infodir} --libdir=/%{_libdir} --bindir=/%{_bindir} --infopath=/%{_infodir}"
-XEMACS_CONFIG="$RPM_ARCH-mandrake-linux $VAR_CONF \
+XEMACS_CONFIG="%{_arch}-mandriva-linux $VAR_CONF \
     --with-pop \
     --mail-locking=flock \
     --with-clash-detection \
@@ -234,38 +234,37 @@ export CFLAGS
 # xemacs think // means ignore everything befor
 RPM_BUILD_DIR=`echo $RPM_BUILD_DIR | sed "s,/\+,/,g"`
 RPM_BUILD_ROOT=`echo %{buildroot} | sed "s,/\+,/,g"`
-RPM_ARCH=%{_arch}
 # FIXME local compilation with local path to compile file if xemacs is not installed on the compilation machine
 
 {
-rm -rf $RPM_ARCH-linux-local
-mkdir $RPM_ARCH-linux-local
-cd $RPM_ARCH-linux-local
+rm -rf %{_arch}-linux-local
+mkdir %{_arch}-linux-local
+cd %{_arch}-linux-local
 ../../configure $XEMACS_CONFIG --datadir=${RPM_BUILD_ROOT}%{_datadir} --package-path=${RPM_BUILD_ROOT}%{_datadir}/xemacs:${RPM_BUILD_DIR}/xemacs-%{version}/lisp
 cd ..
 }
 
 {
-rm -rf $RPM_ARCH-linux
-mkdir $RPM_ARCH-linux
-cd $RPM_ARCH-linux
+rm -rf %{_arch}-linux
+mkdir %{_arch}-linux
+cd %{_arch}-linux
 ../../configure $XEMACS_CONFIG --with-mule=no 
 cd ..
 }
 
 # {
-# rm -rf $RPM_ARCH-linux-gtk
-# mkdir $RPM_ARCH-linux-gtk
-# cd $RPM_ARCH-linux-gtk
+# rm -rf %{_arch}-linux-gtk
+# mkdir %{_arch}-linux-gtk
+# cd %{_arch}-linux-gtk
 # ../../configure $XEMACS_CONFIG --with-mule=no \
 # 		--with-gtk
 # cd ..
 # }
 
 # {
-# rm -rf $RPM_ARCH-linux-gtk-gnome
-# mkdir $RPM_ARCH-linux-gtk-gnome
-# cd $RPM_ARCH-linux-gtk-gnome
+# rm -rf %{_arch}-linux-gtk-gnome
+# mkdir %{_arch}-linux-gtk-gnome
+# cd %{_arch}-linux-gtk-gnome
 # ../../configure $XEMACS_CONFIG --with-mule=no \
 # 		--with-gtk \
 # 		--with-gnome
@@ -273,24 +272,24 @@ cd ..
 # }
 
 {
-rm -rf $RPM_ARCH-linux-mule
-mkdir $RPM_ARCH-linux-mule
-cd $RPM_ARCH-linux-mule
+rm -rf %{_arch}-linux-mule
+mkdir %{_arch}-linux-mule
+cd %{_arch}-linux-mule
 ../../configure $XEMACS_CONFIG --with-mule=yes \
 		--with-xim=xlib
 cd ..
 }
 
 {
-pushd $RPM_ARCH-linux-local
+pushd %{_arch}-linux-local
 make
 popd
-pushd $RPM_ARCH-linux 
+pushd %{_arch}-linux 
 make 
 popd	
-#  pushd $RPM_ARCH-linux-gtk && make && popd
-#  pushd $RPM_ARCH-linux-gtk-gnome && make && popd
-pushd $RPM_ARCH-linux-mule
+#  pushd %{_arch}-linux-gtk && make && popd
+#  pushd %{_arch}-linux-gtk-gnome && make && popd
+pushd %{_arch}-linux-mule
 make
 popd
 }
@@ -300,14 +299,14 @@ popd
 # done again for short-circuit
 rm -rf $RPM_BUILD_ROOT
 
-pushd building/$RPM_ARCH-linux
+pushd building/%{_arch}-linux
 %makeinstall mandir=$RPM_BUILD_ROOT/%{_mandir}/man1  lockdir=$RPM_BUILD_ROOT/var/lock/xemacs
 popd
 
-install -m 755 building/$RPM_ARCH-linux-mule/src/xemacs $RPM_BUILD_ROOT%{_bindir}/xemacs-mule
-install -m 644 building/$RPM_ARCH-linux-mule/src/xemacs.dmp $RPM_BUILD_ROOT%{_bindir}/xemacs-mule.dmp
-#install -m 755 building/$RPM_ARCH-linux-gtk/src/xemacs $RPM_BUILD_ROOT%{_bindir}/xemacs-gtk
-#install -m 755 building/$RPM_ARCH-linux-gtk-gnome/src/xemacs $RPM_BUILD_ROOT%{_bindir}/xemacs-gtk-gnome
+install -m 755 building/%{_arch}-linux-mule/src/xemacs $RPM_BUILD_ROOT%{_bindir}/xemacs-mule
+install -m 644 building/%{_arch}-linux-mule/src/xemacs.dmp $RPM_BUILD_ROOT%{_bindir}/xemacs-mule.dmp
+#install -m 755 building/%{_arch}-linux-gtk/src/xemacs $RPM_BUILD_ROOT%{_bindir}/xemacs-gtk
+#install -m 755 building/%{_arch}-linux-gtk-gnome/src/xemacs $RPM_BUILD_ROOT%{_bindir}/xemacs-gtk-gnome
 bzcat %{SOURCE1} | tar -xf - -C $RPM_BUILD_ROOT/%{_datadir}/xemacs
 bzcat %{SOURCE2} | tar -xf - -C $RPM_BUILD_ROOT/%{_datadir}/xemacs
 #bzcat %{SOURCE9} | tar -xf - -C $RPM_BUILD_ROOT/%{_datadir}/xemacs/xemacs-packages
@@ -321,7 +320,7 @@ rm -f $RPM_BUILD_ROOT/%{_datadir}/xemacs/xemacs-packages/lisp/hyperbole/file-new
 
 # this remove the usage of the AUTH command that breaks with most of the packages servers
 perl -pi -e "s/\(defcustom efs-ftp-program-args '\(\"-i\" \"-n\" \"-g\" \"-v\"\)/(defcustom efs-ftp-program-args '(\"-i\" \"-n\" \"-g\" \"-v\" \"-u\")/" $RPM_BUILD_ROOT/%{_datadir}/xemacs/xemacs-packages/lisp/efs/efs.el
-$RPM_BUILD_DIR/xemacs-%{version}/building/$RPM_ARCH-linux-local/src/xemacs -batch -q -no-site-file -eval "(byte-compile-file \"$RPM_BUILD_ROOT/%{_datadir}/xemacs/xemacs-packages/lisp/efs/efs.el\")"
+$RPM_BUILD_DIR/xemacs-%{version}/building/%{_arch}-linux-local/src/xemacs -batch -q -no-site-file -eval "(byte-compile-file \"$RPM_BUILD_ROOT/%{_datadir}/xemacs/xemacs-packages/lisp/efs/efs.el\")"
 
 # warly applied in sumo 2001 07 09
 # pushd $RPM_BUILD_ROOT/%{_libdir}/xemacs/xemacs-packages && bzcat %{PATCH0} | patch -p1 && pushd $RPM_BUILD_ROOT/%{_libdir}/xemacs/xemacs-packages/lisp/mailcrypt/ && $RPM_BUILD_ROOT%{_bindir}/xemacs -batch -q -no-site-file -eval '(byte-compile-file "mc-gpg.el")' && popd && popd
@@ -329,11 +328,11 @@ $RPM_BUILD_DIR/xemacs-%{version}/building/$RPM_ARCH-linux-local/src/xemacs -batc
 # FIXME need to patch the rpm-spec-mode for short-circuit
 pushd $RPM_BUILD_ROOT
 cat %{PATCH10} | patch -p1
-$RPM_BUILD_DIR/xemacs-%{version}/building/$RPM_ARCH-linux-local/src/xemacs -batch -q -no-site-file -eval "(byte-compile-file \"$RPM_BUILD_ROOT/%{_datadir}/xemacs/xemacs-packages/lisp/prog-modes/rpm-spec-mode.el\")"
+$RPM_BUILD_DIR/xemacs-%{version}/building/%{_arch}-linux-local/src/xemacs -batch -q -no-site-file -eval "(byte-compile-file \"$RPM_BUILD_ROOT/%{_datadir}/xemacs/xemacs-packages/lisp/prog-modes/rpm-spec-mode.el\")"
 popd
 
 export specialel="_pkg.el hyperspec-carney.el ilisp-bug.el ilisp-cl-easy-menu.el mew-mule0.el mew-mule1.el mew-mule2.el mew-mule3.el eieio-tests.el hui-epV4-b.el erc-speak.el erc-chess.el url-riece.el un-trbase.el" 
-for i in `find $RPM_BUILD_ROOT/%{_datadir}/xemacs/mule-packages/lisp/ $RPM_BUILD_ROOT/%{_datadir}/xemacs/xemacs-packages/lisp/ $RPM_BUILD_ROOT/%{_datadir}/xemacs/xemacs-%{version}/lisp/ \( -name "*.el" -or -name "*.elc" \) -a -not -name "*-skel.el" | perl -e 'while (<>) { /(.*\.el)$/ and push @doneel,$1; /(.*\.el)c$/ and $doneelc{$1} = 1 } foreach (split " ",$ENV{specialel}) { $doneelc{"$_"} = 1}; foreach (@doneel) { if (!$doneelc{"$_"} && (/([^\/]+)$/ and !$doneelc{$1})) { print "$_\n"}}'`;do pushd `echo $i | sed "s/\/[^\/]\+$//"` && $RPM_BUILD_DIR/xemacs-%{version}/building/$RPM_ARCH-linux-local/src/xemacs -batch -q -no-site-file -eval "(byte-compile-file \"$i\")";popd;done
+for i in `find $RPM_BUILD_ROOT/%{_datadir}/xemacs/mule-packages/lisp/ $RPM_BUILD_ROOT/%{_datadir}/xemacs/xemacs-packages/lisp/ $RPM_BUILD_ROOT/%{_datadir}/xemacs/xemacs-%{version}/lisp/ \( -name "*.el" -or -name "*.elc" \) -a -not -name "*-skel.el" | perl -e 'while (<>) { /(.*\.el)$/ and push @doneel,$1; /(.*\.el)c$/ and $doneelc{$1} = 1 } foreach (split " ",$ENV{specialel}) { $doneelc{"$_"} = 1}; foreach (@doneel) { if (!$doneelc{"$_"} && (/([^\/]+)$/ and !$doneelc{$1})) { print "$_\n"}}'`;do pushd `echo $i | sed "s/\/[^\/]\+$//"` && $RPM_BUILD_DIR/xemacs-%{version}/building/%{_arch}-linux-local/src/xemacs -batch -q -no-site-file -eval "(byte-compile-file \"$i\")";popd;done
 
 mkdir -p $RPM_BUILD_ROOT/%{_infodir}/xemacs/mule
 mv $RPM_BUILD_ROOT/%{_datadir}/xemacs/xemacs-packages/info/* $RPM_BUILD_ROOT/%{_infodir}/xemacs/
