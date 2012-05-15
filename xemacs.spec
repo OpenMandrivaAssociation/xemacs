@@ -24,6 +24,7 @@ Source5: site-start-mdk.el
 Source6: xemacs-16.png
 Source7: xemacs-32.png
 Source8: xemacs-48.png
+Patch1: xemacs-21.4.22-libpng15.patch
 Patch2: xemacs-21.4.22-non-x86-build.patch
 Patch5: xemacs-21.4.9-fix-emacs-roots.patch
 Patch6: xemacs-21.4.15-ppc64.patch
@@ -176,6 +177,7 @@ install this package when you install the XEmacs text editor.
 %prep
 %setup -q
 
+%patch1 -p1
 %ifnarch %{ix86}
 %patch2 -p1
 %endif
