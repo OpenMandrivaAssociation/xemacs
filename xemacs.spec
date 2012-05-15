@@ -187,7 +187,7 @@ install this package when you install the XEmacs text editor.
 %build
 
 # done now not for xemacs to search packages file in future install root
-rm -rf $RPM_BUILD_ROOT
+rm -rf %{buildroot}
 
 autoconf-2.13
 
@@ -233,7 +233,8 @@ export CFLAGS
 
 # xemacs think // means ignore everything befor
 RPM_BUILD_DIR=`echo $RPM_BUILD_DIR | sed "s,/\+,/,g"`
-RPM_BUILD_ROOT=`echo $RPM_BUILD_ROOT | sed "s,/\+,/,g"`
+RPM_BUILD_ROOT=`echo %{buildroot} | sed "s,/\+,/,g"`
+RPM_ARCH=%{_arch}
 # FIXME local compilation with local path to compile file if xemacs is not installed on the compilation machine
 
 {
