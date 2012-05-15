@@ -47,6 +47,7 @@ Requires: ctags
 # http://forum.mandriva.com/viewtopic.php?p=457779
 Suggests: x11-font-adobe-100dpi
 BuildRequires:	Xaw3d-devel
+BuildRequires:	xaw-devel
 BuildRequires:	autoconf2.1
 BuildRequires:	bison
 BuildRequires:	db-devel
