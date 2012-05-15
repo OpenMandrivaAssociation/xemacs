@@ -177,7 +177,6 @@ install this package when you install the XEmacs text editor.
 %prep
 %setup -q
 
-%patch1 -p1
 %ifnarch %{ix86}
 %patch2 -p1
 %endif
@@ -186,6 +185,7 @@ install this package when you install the XEmacs text editor.
 %patch6 -p1 -b .ppc64
 %patch11 -p1 -b .lzma
 %patch12 -p1
+%patch1 -p1
 
 %build
 
