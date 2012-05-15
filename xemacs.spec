@@ -189,7 +189,7 @@ install this package when you install the XEmacs text editor.
 # done now not for xemacs to search packages file in future install root
 rm -rf %{buildroot}
 
-autoreconf-2.13
+autoreconf-2.13 -i
 
 rm -rf lisp/*.elc
 
