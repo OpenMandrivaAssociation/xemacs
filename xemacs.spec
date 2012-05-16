@@ -55,8 +55,7 @@ BuildRequires:	db-devel
 BuildRequires:	compface-devel
 BuildRequires:	lesstif-devel
 BuildRequires:	ncurses-devel
-BuildRequires:	libxml-devel
-BuildRequires:	sendmail-command
+#BuildRequires:	sendmail-command
 BuildRequires:	xpm-devel
 BuildRequires:  tiff-devel
 BuildRequires:  jpeg-devel
@@ -231,8 +230,8 @@ XEMACS_CONFIG="%{_arch}-mandriva-linux $VAR_CONF \
 %endif
     --with-file-coding "
 #	--with-meta-same-as-alt "
-CFLAGS="$RPM_OPT_FLAGS"
-export CFLAGS
+#CFLAGS="$RPM_OPT_FLAGS"
+#export CFLAGS
 
 # xemacs think // means ignore everything befor
 RPM_BUILD_DIR=`echo $RPM_BUILD_DIR | sed "s,/\+,/,g"`
