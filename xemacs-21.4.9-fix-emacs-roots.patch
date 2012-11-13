@@ -1,0 +1,11 @@
+--- xemacs-21.4.9/lisp/find-paths.el.warly	2002-09-07 20:30:28.000000000 +0200
++++ xemacs-21.4.9/lisp/find-paths.el	2002-09-09 12:23:30.000000000 +0200
+@@ -103,7 +103,7 @@
+   (or
+    ;; installed
+    (paths-file-readable-directory-p (paths-construct-path (list directory
+-								"lib"
++								"share"
+ 								emacs-program-name)))
+    ;; in-place or windows-nt
+    (and

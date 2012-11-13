@@ -1,0 +1,67 @@
+--- xemacs-21.4.22-1mdv2010.0.i386/usr/share/xemacs/xemacs-packages/lisp/prog-modes/rpm-spec-mode.el.orig	2008-10-13 03:46:07.000000000 -0300
++++ xemacs-21.4.22-1mdv2010.0.i386/usr/share/xemacs/xemacs-packages/lisp/prog-modes/rpm-spec-mode.el	2009-09-25 20:17:50.000000000 -0300
+@@ -717,7 +717,7 @@
+                            (substring (current-time-string) -4) " "
+                            fullname " <" address ">"
+                            (and rpm-spec-insert-changelog-version
+-                                (concat " - " (rpm-find-spec-version t))))))
++                                (concat " " (rpm-find-spec-version t))))))
+       (if (not (search-forward string nil t))
+           (insert "\n" string "\n")
+         (forward-line 2))
+@@ -1043,20 +1043,14 @@
+ (defun rpm-build-prepare (&optional arg)
+   "Run a `rpmbuild -bp'."
+   (interactive "p")
+-  (if rpm-spec-short-circuit
+-      (message "Cannot run `%s -bp' with --short-circuit"
+-	       rpm-spec-build-command)
+     (setq rpm-no-gpg t)
+-    (rpm-build "-bp")))
++    (rpm-build "-bp"))
+ 
+ (defun rpm-list-check (&optional arg)
+   "Run a `rpmbuild -bl'."
+   (interactive "p")
+-  (if rpm-spec-short-circuit
+-      (message "Cannot run `%s -bl' with --short-circuit"
+-	       rpm-spec-build-command)
+     (setq rpm-no-gpg t)
+-    (rpm-build "-bl")))
++    (rpm-build "-bl"))
+ 
+ (defun rpm-build-compile (&optional arg)
+   "Run a `rpmbuild -bc'."
+@@ -1073,29 +1067,20 @@
+ (defun rpm-build-binary (&optional arg)
+   "Run a `rpmbuild -bb'."
+   (interactive "p")
+-  (if rpm-spec-short-circuit
+-      (message "Cannot run `%s -bb' with --short-circuit"
+-	       rpm-spec-build-command)
+     (setq rpm-no-gpg nil)
+-    (rpm-build "-bb")))
++    (rpm-build "-bb"))
+ 
+ (defun rpm-build-source (&optional arg)
+   "Run a `rpmbuild -bs'."
+   (interactive "p")
+-  (if rpm-spec-short-circuit
+-      (message "Cannot run `%s -bs' with --short-circuit"
+-	       rpm-spec-build-command)
+     (setq rpm-no-gpg nil)
+-    (rpm-build "-bs")))
++    (rpm-build "-bs"))
+ 
+ (defun rpm-build-all (&optional arg)
+   "Run a `rpmbuild -ba'."
+   (interactive "p")
+-  (if rpm-spec-short-circuit
+-      (message "Cannot run `%s -ba' with --short-circuit"
+-	       rpm-spec-build-command)
+     (setq rpm-no-gpg nil)
+-    (rpm-build "-ba")))
++    (rpm-build "-ba"))
+ 
+ (defun rpm-process-check (buffer)
+   "Check if BUFFER has a running process.

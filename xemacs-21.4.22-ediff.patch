@@ -1,0 +1,12 @@
+diff -p -up xemacs-21.4.22-2mdv2010.0.i386/usr/share/xemacs/xemacs-packages/lisp/ediff/ediff-init.el.orig xemacs-21.4.22-2mdv2010.0.i386/usr/share/xemacs/xemacs-packages/lisp/ediff/ediff-init.el
+--- xemacs-21.4.22-2mdv2010.0.i386/usr/share/xemacs/xemacs-packages/lisp/ediff/ediff-init.el.orig	2009-10-01 17:51:57.000000000 -0300
++++ xemacs-21.4.22-2mdv2010.0.i386/usr/share/xemacs/xemacs-packages/lisp/ediff/ediff-init.el	2009-10-01 17:52:23.000000000 -0300
+@@ -727,7 +727,7 @@ work."
+   :type 'symbol
+   :group 'ediff)
+ 
+-(defcustom ediff-coding-system-for-write 'emacs-internal
++(defcustom ediff-coding-system-for-write 'raw-text
+   "*The coding system for write to use when writing out difference regions
+ to temp files in buffer jobs and when Ediff needs to find fine differences."
+   :type 'symbol
