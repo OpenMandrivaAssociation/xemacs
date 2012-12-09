@@ -3,12 +3,17 @@
 %define rversion %{major}.4.22
 %define mversion %{major}.4
 %define sumodate 2009-02-17
+
+%if %{_use_internal_dependency_generator}
+%define __noautoreq '/bin/zsh|/bin/csh'
+%else
 %define _requires_exceptions /bin/zsh /bin/csh
+%endif
 
 # force use of system malloc()
 %define system_malloc_arches ppc64
 
-%define release 8
+%define release 9
 
 Summary: Highly customizable text editor and application development system
 Name: xemacs
@@ -447,10 +452,6 @@ install -m 644 -D %SOURCE8 %buildroot/%_iconsdir/hicolor/48x48/apps/xemacs.png
 
 %post 
 /usr/sbin/update-alternatives --install %{_bindir}/%{name} %{name} %{_bindir}/%{name}-%{version} %{major}
-%if %mdkversion < 200900
-%{update_menus}	
-%{update_icon_cache hicolor}			
-%endif
 
 # euro only works in development version
 #grep "Emacs\*font" || cat >> /usr/lib/X11/app-defaults/Emacs << EOF
@@ -458,12 +459,6 @@ install -m 644 -D %SOURCE8 %buildroot/%_iconsdir/hicolor/48x48/apps/xemacs.png
 #EOF
 cat %{_datadir}/xemacs-%{version}/etc/Emacs.ad >> /%{_sysconfdir}/X11/app-defaults/Emacs
 
-for f in cl internals lispref texinfo xemacs custom emodules new-users-guide widget external-widget term xemacs-faq; do
-  /sbin/install-info --section="XEmacs" %{_infodir}/$f.info%{_extension} %{_infodir}/dir
-done
-for f in %{_infodir}/xemacs/*.info%{_extension}; do
-  /sbin/install-info --quiet --section="XEmacs" $f %{_infodir}/dir
-done
 
 %post extras
 /usr/sbin/update-alternatives --install %{_bindir}/ctags ctags %{_bindir}/%{name}-ctags 0
@@ -471,34 +466,10 @@ done
 %post mule
 /usr/sbin/update-alternatives --install %{_bindir}/%{name} %{name} %{_bindir}/%{name}-mule %{major}
 /usr/sbin/update-alternatives --set %{name} %{_bindir}/%{name}-mule
-for f in %{_infodir}/xemacs/mule/*.info%{_extension}; do
-   /sbin/install-info --quiet --section="XEmacs-mule" $f %{_infodir}/dir
-done
 
 %postun
 [[ ! -f %{_bindir}/%{name}-%{version} ]] && \
     /usr/sbin/update-alternatives --remove %{name} %{_bindir}/%{name}-%{version} || :
-%if %mdkversion < 200900
-%{clean_menus}
-%{clean_icon_cache hicolor}
-%endif
-
-%preun 
-if [ "$1" = 0 ]; then
-for f in cl internals lispref texinfo xemacs custom emodules new-users-guide widget external-widget term xemacs-faq; do
-  /sbin/install-info --section="XEmacs" --delete %{_infodir}/$f.info%{_extension} %{_infodir}/dir
-done
-for f in %{_infodir}/xemacs/*.info%{_extension}; do
-  [ -f $f ] && /sbin/install-info --quiet --section="XEmacs" --delete $f %{_infodir}/dir
-done
-fi
-
-%preun mule
-if [ "$1" = 0 ]; then
-for f in %{_infodir}/xemacs/*.info%{_extension}; do
-  [ -f $f ] && /sbin/install-info --quiet -section="XEmacs-mule" --delete $f %{_infodir}/dir
-done
-fi
 
 %postun extras
 [[ ! -f %{_bindir}/%{name}-ctags ]] && \
@@ -575,6 +546,115 @@ fi
 %{_mandir}/man1/etags.1*
 %{_mandir}/man1/ctags.1*
 
-%clean
-#rm -rf $RPM_BUILD_ROOT
+
+
+%changelog
+* Wed May 16 2012 Crispin Boylan <crisb@mandriva.org> 21.4.22-8
++ Revision: 799234
+- Fix hang on x86_64
+- Patch1 (from mageia) - Fix build with latest libpng
+- Rebuild
+
+* Wed Dec 08 2010 Oden Eriksson <oeriksson@mandriva.com> 21.4.22-7mdv2011.0
++ Revision: 615530
+- the mass rebuild of 2010.1 packages
+
+* Sat Jan 16 2010 Funda Wang <fwang@mandriva.org> 21.4.22-6mdv2010.1
++ Revision: 492269
+- rebuild for new libjpeg v8
+
+* Thu Dec 31 2009 Funda Wang <fwang@mandriva.org> 21.4.22-5mdv2010.1
++ Revision: 484300
+- BR compface
+- rebuild for db 4.8
+
+  + Paulo Andrade <pcpa@mandriva.com.br>
+    - Use update-alternatives for xemacs ctags
+
+* Mon Oct 05 2009 Paulo Andrade <pcpa@mandriva.com.br> 21.4.22-3mdv2010.0
++ Revision: 454266
+- Use update alternatives to correct problems when xemacs-mule is installed.
+
+* Fri Oct 02 2009 Paulo Andrade <pcpa@mandriva.com.br> 21.4.22-2mdv2010.0
++ Revision: 452404
+- correct broken ediff output (http://tracker.xemacs.org/XEmacs/its/issue494)
+
+* Sat Sep 26 2009 Paulo Andrade <pcpa@mandriva.com.br> 21.4.22-1mdv2010.0
++ Revision: 449348
+- Update to latest stable release 21.4.22
+- Update mule-sumo to 2009-02-17
+- Add correction for CVE-2009-2688
+
+  + Thierry Vignaud <tv@mandriva.org>
+    - rebuild
+
+* Sun Aug 03 2008 Thierry Vignaud <tv@mandriva.org> 21.4.21-9mdv2009.0
++ Revision: 262310
+- rebuild
+
+* Thu Jul 31 2008 Thierry Vignaud <tv@mandriva.org> 21.4.21-8mdv2009.0
++ Revision: 256785
+- rebuild
+
+  + Pixel <pixel@mandriva.com>
+    - rpm filetriggers deprecates update_menus/update_scrollkeeper/update_mime_database/update_icon_cache/update_desktop_database/post_install_gconf_schemas
+
+* Wed Mar 26 2008 Adam Williamson <awilliamson@mandriva.org> 21.4.21-6mdv2008.1
++ Revision: 190192
+- suggest x11-font-adobe-100dpi (without these fonts, it looks rather bad by default)
+
+* Mon Feb 18 2008 Thierry Vignaud <tv@mandriva.org> 21.4.21-5mdv2008.1
++ Revision: 171183
+- rebuild
+- fix "foobar is blabla" summary (=> "blabla") so that it looks nice in rpmdrake
+- fix gstreamer0.10-devel BR for x86_64
+- fix summary-ended-with-dot
+- fix spacing at top of description
+
+* Fri Jan 18 2008 Adam Williamson <awilliamson@mandriva.org> 21.4.21-4mdv2008.1
++ Revision: 154978
+- add lzma.patch to fix #36961 (can't open lzma-compressed info files)
+
+* Sun Dec 30 2007 Adam Williamson <awilliamson@mandriva.org> 21.4.21-3mdv2008.1
++ Revision: 139480
+- fixes from Shlomi Fish: don't needlessly auto-require tcsh, add missing %% to several uses of %%{_extension}
+
+  + Olivier Blin <blino@mandriva.org>
+    - restore BuildRoot
+
+  + Thierry Vignaud <tv@mandriva.org>
+    - kill re-definition of %%buildroot on Pixel's request
+
+* Sun Dec 09 2007 Funda Wang <fwang@mandriva.org> 21.4.21-2mdv2008.1
++ Revision: 116647
+- fix comment of desktop item
+
+* Sun Dec 09 2007 Funda Wang <fwang@mandriva.org> 21.4.21-1mdv2008.1
++ Revision: 116611
+- New version 21.4.21
+
+* Thu Dec 06 2007 Adam Williamson <awilliamson@mandriva.org> 21.4.20-4mdv2008.1
++ Revision: 116077
+- fix hardcoded extension for info files (#35965)
+
+  + Thierry Vignaud <tv@mandriva.org>
+    - fix summary-ended-with-dot
+    - kill desktop-file-validate's 'warning: key "Encoding" in group "Desktop Entry" is deprecated'
+
+* Sat Jul 21 2007 Adam Williamson <awilliamson@mandriva.org> 21.4.20-3mdv2008.0
++ Revision: 54103
+- rebuild against new lesstif
+- improve xdg menu
+- fd.o icons
+- buildrequires autoconf2.1 (2.1 is no longer the default)
+
+* Thu May 31 2007 Funda Wang <fwang@mandriva.org> 21.4.20-2mdv2008.0
++ Revision: 33003
+- kill old menu
+  fix post script
+
+* Tue May 29 2007 Funda Wang <fwang@mandriva.org> 21.4.20-1mdv2008.0
++ Revision: 32336
+- New version of sumo
+- New version
 
