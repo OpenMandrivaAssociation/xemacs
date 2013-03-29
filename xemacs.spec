@@ -44,6 +44,8 @@ Patch12: xemacs-21.4.22-CVE-2009-2688.patch
 # http://tracker.xemacs.org/XEmacs/its/issue494 and #54215
 Patch13: xemacs-21.4.22-ediff.patch
 
+Patch14: xemacs-21.4.22-texinfo5.1.patch
+
 Provides: xemacs-noX xemacs-static xemacs-X11 xemacs-packages
 Obsoletes: xemacs-noX xemacs-static xemacs-X11 xemacs-packages
 Url: http://www.xemacs.org/
@@ -190,6 +192,7 @@ install this package when you install the XEmacs text editor.
 %patch11 -p1 -b .lzma
 %patch12 -p1
 %patch1 -p1
+%patch14 -p1
 
 %build
 

@@ -1,0 +1,10 @@
+--- xemacs-21.4.22/man/custom.texi.orig	2013-03-29 08:36:31.077560978 +0000
++++ xemacs-21.4.22/man/custom.texi	2013-03-29 08:36:37.966560576 +0000
+@@ -19,6 +19,7 @@
+ @node Top, Declaring Groups, (dir), (dir)
+ @comment  node-name,  next,  previous,  up
+ @top The Customization Library
++@raisesections
+ 
+ This manual describes how to declare customization groups, variables,
+ and faces.  It doesn't contain any examples, but please look at the file
