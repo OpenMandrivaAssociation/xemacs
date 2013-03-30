@@ -53,3 +53,13 @@
  @ifinfo
  This Info file contains the third edition of the XEmacs Lisp
  Reference Manual, corresponding to XEmacs version 21.0.
+--- xemacs-21.4.22/man/widget.texi~	2003-03-20 03:53:32.000000000 +0000
++++ xemacs-21.4.22/man/widget.texi	2013-03-30 12:48:29.383832202 +0000
+@@ -19,6 +19,7 @@
+ @node Top, Introduction, (dir), (dir)
+ @comment  node-name,  next,  previous,  up
+ @top The Emacs Widget Library
++@raisesections
+ 
+ @menu
+ * Introduction::                
