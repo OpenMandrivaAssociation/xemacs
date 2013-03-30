@@ -31,3 +31,25 @@
  @end titlepage
  
  @ifinfo
+--- xemacs-21.4.22/man/lispref/edebug-inc.texi.orig	2013-03-30 12:12:43.203957598 +0000
++++ xemacs-21.4.22/man/lispref/edebug-inc.texi	2013-03-30 12:22:30.394923290 +0000
+@@ -1103,7 +1103,7 @@
+ Here is a table of the possibilities for @var{specification} and how each
+ directs processing of arguments.
+ 
+-@table @bullet
++@table @code
+ 
+ @item @code{t}
+ All arguments are instrumented for evaluation.
+--- xemacs-21.4.22/man/lispref/lispref.texi~	2005-02-23 01:54:35.000000000 +0000
++++ xemacs-21.4.22/man/lispref/lispref.texi	2013-03-30 12:17:59.434939121 +0000
+@@ -120,7 +120,7 @@
+ @page
+ 
+ @node Top, Copying, (dir), (dir)
+-
++@raisesections
+ @ifinfo
+ This Info file contains the third edition of the XEmacs Lisp
+ Reference Manual, corresponding to XEmacs version 21.0.
