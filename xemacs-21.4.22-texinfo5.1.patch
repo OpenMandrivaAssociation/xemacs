@@ -8,3 +8,26 @@
  
  This manual describes how to declare customization groups, variables,
  and faces.  It doesn't contain any examples, but please look at the file
+--- xemacs-21.4.22/man/info.texi.orig	2013-03-29 08:51:42.641507718 +0000
++++ xemacs-21.4.22/man/info.texi	2013-03-30 09:13:13.887129615 +0000
+@@ -542,6 +542,9 @@
+ 
+ @c If a menu appears at the end of this node, remove it.
+ @c It is an accident of the menu updating command.
++@menu
++* Help-Cross::             Cross reference
++@end menu
+ 
+ @node Help-Cross,  ,  , Help-Adv
+ @subsection The node reached by the cross reference in Info
+--- xemacs-21.4.22/man/term.texi.orig	2013-03-30 09:16:06.853119509 +0000
++++ xemacs-21.4.22/man/term.texi	2013-03-30 09:16:13.254119135 +0000
+@@ -4,7 +4,7 @@
+ 
+ @titlepage
+ @sp 6
+-@center @titlefont(Notes about Emacs TERM Mode)
++@center @titlefont{Notes about Emacs TERM Mode}
+ @end titlepage
+ 
+ @ifinfo
