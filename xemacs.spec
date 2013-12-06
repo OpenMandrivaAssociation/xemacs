@@ -29,6 +29,7 @@ Source5: site-start-mdk.el
 Source6: xemacs-16.png
 Source7: xemacs-32.png
 Source8: xemacs-48.png
+Source9: %{name}.rpmlintrc
 Patch1: xemacs-21.4.22-libpng15.patch
 Patch2: xemacs-21.4.22-non-x86-build.patch
 Patch5: xemacs-21.4.9-fix-emacs-roots.patch
