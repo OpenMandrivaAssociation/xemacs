@@ -375,10 +375,11 @@ Categories=Motif;Utility;TextEditor;
 EOF
 
 for i in termcap.info-1 termcap.info-2 termcap.info-3 termcap.info info.info \
-    standards.info cl.info widget.info texinfo.info
+    standards.info cl.info widget.info
 do
   rm -f $RPM_BUILD_ROOT/%{_datadir}/info/$i
 done
+  rm -f $RPM_BUILD_ROOT/%{_datadir}/info/texinfo.info*
 
 #mkdir $RPM_BUILD_ROOT%{_sysconfdir}/emacs/site-start.d
 
