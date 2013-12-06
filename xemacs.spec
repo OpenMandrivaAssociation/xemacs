@@ -13,7 +13,7 @@
 # force use of system malloc()
 %define system_malloc_arches ppc64
 
-%define release 10
+%define release 11
 
 Summary: Highly customizable text editor and application development system
 Name: xemacs
@@ -373,8 +373,8 @@ Type=Application
 Categories=Motif;Utility;TextEditor;
 EOF
 
-for i in termcap.info-1 termcap.info-2 termcap.info-3 termcap.info info.info standards.info \
-    cl.info widget.info
+for i in termcap.info-1 termcap.info-2 termcap.info-3 termcap.info info.info \
+    standards.info cl.info widget.info texinfo.info
 do
   rm -f $RPM_BUILD_ROOT/%{_datadir}/info/$i
 done
