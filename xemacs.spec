@@ -13,7 +13,7 @@
 # force use of system malloc()
 %define system_malloc_arches ppc64
 
-%define release 10
+%define release 11
 
 Summary: Highly customizable text editor and application development system
 Name: xemacs
