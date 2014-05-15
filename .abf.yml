@@ -1,4 +1,7 @@
 sources:
-  "xemacs-21.4.22.tar.bz2": 67876eb2bbedc02e7b660db8b4c31b5b98be865e
-  "xemacs-mule-sumo-2009-02-17.tar.bz2": dc50bc3b62e5ff1cd766c7e4f31880bd200caad5
-  "xemacs-sumo-2009-02-17.tar.bz2": 13eab46524c8e9070e71289c06d49e831e48b7b2
+  xemacs-16.png: bfd6f372131eb66e2bbaead3b3ab80c3c9757854
+  xemacs-21.4.22.tar.bz2: 67876eb2bbedc02e7b660db8b4c31b5b98be865e
+  xemacs-32.png: c266ae7bedcfc83c6fb94d7c8c35b9b764c9e73b
+  xemacs-48.png: fe9c4d66f979972865b7c0c078c651ffa1758d62
+  xemacs-mule-sumo-2009-02-17.tar.bz2: dc50bc3b62e5ff1cd766c7e4f31880bd200caad5
+  xemacs-sumo-2009-02-17.tar.bz2: 13eab46524c8e9070e71289c06d49e831e48b7b2
