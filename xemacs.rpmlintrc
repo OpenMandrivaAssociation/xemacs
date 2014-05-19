@@ -1,1 +1,1 @@
-addFilter("info-files-with-install-info-post.*")
+addFilter("devel-file-in-non-devel-package.*")
