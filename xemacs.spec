@@ -12,7 +12,7 @@
 Summary:	Highly customizable text editor and application development system
 Name:		xemacs
 Version:	%{major}.4.22
-Release:	17
+Release:	18
 License:	GPLv2+
 Group:		Editors
 Url:		http://www.xemacs.org/
