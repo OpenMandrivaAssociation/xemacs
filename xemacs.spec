@@ -37,6 +37,7 @@ Patch12:	xemacs-21.4.22-CVE-2009-2688.patch
 Patch13:	xemacs-21.4.22-ediff.patch
 
 Patch14: xemacs-21.4.22-texinfo5.1.patch
+Patch15:	xemacs-21.4.22-gcc5.patch
 
 Requires:	xemacs-extras
 # It looks crap by default without these fonts - AdamW 2008/03, see
@@ -220,6 +221,7 @@ install this package when you install the XEmacs text editor.
 %patch12 -p1
 %patch1 -p1
 %patch14 -p1
+%patch15 -p1
 
 %build
 autoreconf-2.13 -i
