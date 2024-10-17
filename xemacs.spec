@@ -15,7 +15,7 @@ Version:	%{major}.4.22
 Release:	22
 License:	GPLv2+
 Group:		Editors
-Url:		http://www.xemacs.org/
+Url:		https://www.xemacs.org/
 Source0:	ftp://ftp.xemacs.org/pub/xemacs/xemacs-%{mversion}/xemacs-%{rversion}.tar.bz2
 Source1:	ftp://ftp.xemacs.org/pub/xemacs/packages/xemacs-mule-sumo-%{sumodate}.tar.bz2
 Source2:	ftp://ftp.xemacs.org/pub/xemacs/packages/xemacs-sumo-%{sumodate}.tar.bz2
