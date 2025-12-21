@@ -43,6 +43,7 @@ Requires:	xemacs-extras
 # It looks crap by default without these fonts - AdamW 2008/03, see
 # http://forum.mandriva.com/viewtopic.php?p=457779
 Suggests:	x11-font-adobe-100dpi
+BuildRequires:	make
 BuildRequires:	autoconf2.1
 BuildRequires:	bison
 BuildRequires:	texinfo
